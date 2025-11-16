@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: microservices
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/microservices?createDatabaseIfNotExist=true
+#    username: root
+#    password: rahul1999@
