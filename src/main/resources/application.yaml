@@ -1,7 +1,15 @@
 spring:
   application:
     name: microservices
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/microservices?createDatabaseIfNotExist=true
-#    username: root
-#    password: rahul1999@
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservice?createDatabaseIfNotExist=true
+    username: root
+    password: rahul1999@
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+        mode: always

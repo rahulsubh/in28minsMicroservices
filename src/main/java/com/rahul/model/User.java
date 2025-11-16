@@ -1,6 +1,10 @@
 package com.rahul.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
@@ -12,10 +16,15 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@Entity
+@Table(name = "user_details")
 @Builder
 public class User {
 
+    protected User(){}
+
+    @Id
+    @GeneratedValue
     private int id;
 
     @NotBlank(message = "Name cannot be blank")
