@@ -7,9 +7,14 @@ spring:
     password: rahul1999@
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     defer-datasource-initialization: true
   sql:
     init:
         mode: always
+
+  security:
+    user:
+      name: admin
+      password: admin

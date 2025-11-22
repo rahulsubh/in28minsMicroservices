@@ -2,13 +2,15 @@ package com.rahul.Controller;
 
 import com.rahul.Dao.ApiResponse;
 import com.rahul.Exceptions.UserNotFoundException;
-import com.rahul.Dao.UserDaoService;
+import com.rahul.Repository.PostRepo;
 import com.rahul.Repository.UserRepo;
+import com.rahul.model.Post;
 import com.rahul.model.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 public class UserJpaController {
 
     private final UserRepo userRepo;
+    private final PostRepo postRepo;
 
     @GetMapping("/jpa/users")
     public List<User> getAllUsers() {
@@ -61,5 +64,19 @@ public class UserJpaController {
                         .status(true)
                         .build()
         );
+    }
+
+    @PostMapping("/jpa/users/{userId}/posts")
+    public ResponseEntity<Post> createPostForUser(@PathVariable int userId, @Valid @RequestBody Post post){
+        User user = userRepo.findById(userId).orElseThrow(
+                () -> new UserNotFoundException(String.valueOf(userId))
+        );
+        post.setUser(user);
+        Post savedPost = postRepo.save(post);
+        URI uri = fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedPost.getId())
+                .toUri();
+        return ResponseEntity.created(uri).build();
     }
 }
